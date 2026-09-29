@@ -6,7 +6,6 @@
     android:background="#FFF4E4"
     android:orientation="vertical">
 
-    <!-- Área que pode rolar -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -85,74 +84,61 @@
                     android:textSize="26sp" />
             </LinearLayout>
 
-            <!-- Filtros que rolam para os lados -->
-            <HorizontalScrollView
+            <!-- Localização, pesquisa e filtros -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="22dp"
-                android:fillViewport="false"
-                android:scrollbars="none">
+                android:layout_marginEnd="24dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/btnLocalizacao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_filtro"
+                    android:gravity="center"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
+                    android:text="⌖  Artistas próximos  ▾"
+                    android:textColor="#261B16"
+                    android:textSize="16sp" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="24dp"
-                    android:paddingEnd="24dp">
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/campoBusca"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_filtro"
+                        android:hint="Pesquisar artista ou obra"
+                        android:inputType="text"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="12dp"
+                        android:singleLine="true"
+                        android:textColor="#261B16"
+                        android:textSize="15sp" />
 
                     <TextView
-                        android:id="@+id/filtroEmAlta"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
+                        android:id="@+id/btnFiltros"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:layout_marginStart="10dp"
                         android:background="@drawable/bg_filtro_ativo"
+                        android:contentDescription="Abrir filtros"
                         android:gravity="center"
-                        android:paddingStart="18dp"
-                        android:paddingEnd="18dp"
-                        android:text="Em alta"
+                        android:text="☷"
                         android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/filtroPintura"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_marginStart="9dp"
-                        android:background="@drawable/bg_filtro"
-                        android:gravity="center"
-                        android:paddingStart="18dp"
-                        android:paddingEnd="18dp"
-                        android:text="Pintura"
-                        android:textColor="#261B16"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/filtroEscultura"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_marginStart="9dp"
-                        android:background="@drawable/bg_filtro"
-                        android:gravity="center"
-                        android:paddingStart="18dp"
-                        android:paddingEnd="18dp"
-                        android:text="Escultura"
-                        android:textColor="#261B16"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/filtroFotografia"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_marginStart="9dp"
-                        android:background="@drawable/bg_filtro"
-                        android:gravity="center"
-                        android:paddingStart="18dp"
-                        android:paddingEnd="18dp"
-                        android:text="Fotografia"
-                        android:textColor="#261B16"
-                        android:textSize="16sp" />
+                        android:textSize="27sp" />
                 </LinearLayout>
-            </HorizontalScrollView>
+            </LinearLayout>
 
             <!-- Card laranja principal -->
             <LinearLayout
@@ -196,7 +182,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Título da próxima seção -->
+            <!-- Obras em destaque -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -224,10 +210,11 @@
                     android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
-    <!-- Barra inferior: versão inicial -->
+    <!-- Barra inferior -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="68dp"
