@@ -15,6 +15,74 @@
         android:paddingEnd="24dp"
         android:paddingBottom="28dp">
 
+        <!-- Filtros de categorias -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/filtroEmAlta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_filtro_ativo"
+                    android:gravity="center"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
+                    android:text="Em alta"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/filtroPintura"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="9dp"
+                    android:background="@drawable/bg_filtro"
+                    android:gravity="center"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
+                    android:text="Pintura"
+                    android:textColor="#261B16"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/filtroEscultura"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="9dp"
+                    android:background="@drawable/bg_filtro"
+                    android:gravity="center"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
+                    android:text="Escultura"
+                    android:textColor="#261B16"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/filtroFotografia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="9dp"
+                    android:background="@drawable/bg_filtro"
+                    android:gravity="center"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
+                    android:text="Fotografia"
+                    android:textColor="#261B16"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Título -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,6 +99,7 @@
             android:textColor="#746C68"
             android:textSize="17sp" />
 
+        <!-- Título da seção -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +125,9 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <!-- Cards de pinturas -->
         <HorizontalScrollView
+            android:id="@+id/listaPinturas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -157,8 +228,19 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
+
             </LinearLayout>
         </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/mensagemCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Ainda não há obras nesta categoria."
+            android:textColor="#746C68"
+            android:textSize="17sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 </ScrollView>
