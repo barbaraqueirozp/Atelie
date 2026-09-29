@@ -1,3 +1,4 @@
+
 package com.example.ateli;
 
 import android.os.Bundle;
@@ -8,6 +9,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
+
+import com.example.ateli.ExplorarActivity;
+import com.example.ateli.R;
 
 public class MainActivity extends AppCompatActivity {
 
