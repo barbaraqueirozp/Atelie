@@ -11,8 +11,30 @@ import android.content.Intent;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.ContextCompat;
+import androidx.core.location.LocationManagerCompat;
 
 public class MainActivity extends AppCompatActivity {
+    private final ActivityResultLauncher<String> pedirLocalizacao =
+            registerForActivityResult(
+                    new ActivityResultContracts.RequestPermission(),
+                    permitida -> {
+                        if (permitida) {
+                            obterLocalizacaoAtual();
+                        } else {
+                            Toast.makeText(this,
+                                    "Permissão de localização não concedida",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +51,19 @@ public class MainActivity extends AppCompatActivity {
             menu.getMenu().add("Escolher outra localização");
 
             menu.setOnMenuItemClickListener(item -> {
-                btnLocalizacao.setText(item.getTitle() + "  ▾");
+                if (item.getTitle().toString().equals("Usar localização atual")) {
+                    if (ContextCompat.checkSelfPermission(
+                            this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+                        obterLocalizacaoAtual();
+                    } else {
+                        pedirLocalizacao.launch(Manifest.permission.ACCESS_COARSE_LOCATION);
+                    }
+                } else {
+                    Toast.makeText(this,
+                            "A escolha manual da cidade será adicionada em seguida",
+                            Toast.LENGTH_SHORT).show();
+                }
                 return true;
             });
 
@@ -61,5 +95,51 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnVerTudo).setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, ExplorarActivity.class));
         });
+    }
+    private void obterLocalizacaoAtual() {
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        LocationManager gerenciador =
+                (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (gerenciador == null ||
+                !gerenciador.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            Toast.makeText(this,
+                    "Ative a localização do celular e tente novamente",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        TextView btnLocalizacao = findViewById(R.id.btnLocalizacao);
+        btnLocalizacao.setText("Obtendo localização...");
+
+        LocationManagerCompat.getCurrentLocation(
+                gerenciador,
+                LocationManager.NETWORK_PROVIDER,
+                new android.os.CancellationSignal(),
+                ContextCompat.getMainExecutor(this),
+                local -> {
+                    if (local == null) {
+                        btnLocalizacao.setText("⌖  Artistas próximos  ▾");
+                        Toast.makeText(this,
+                                "Não foi possível obter a localização",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    btnLocalizacao.setText("⌖  Minha localização  ▾");
+
+                    // Coordenadas disponíveis para a futura busca de artistas.
+                    double latitude = local.getLatitude();
+                    double longitude = local.getLongitude();
+
+                    Toast.makeText(this,
+                            "Localização obtida: " + latitude + ", " + longitude,
+                            Toast.LENGTH_LONG).show();
+                });
     }
 }
