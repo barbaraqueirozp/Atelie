@@ -13,25 +13,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ateliê">
+
         <activity
             android:name=".ExplorarActivity"
             android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true" />
+
         <activity
             android:name=".CadastroActivity"
-            android:exported="true" />
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".LoginActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
     </application>
 
 </manifest>
