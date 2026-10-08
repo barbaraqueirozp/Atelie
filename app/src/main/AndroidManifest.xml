@@ -19,6 +19,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".ObraDetalheActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".CadastroActivity"
             android:exported="false" />
 

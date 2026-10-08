@@ -1,116 +1,95 @@
 package com.example.ateli;
 
-
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.text.Editable;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.ateli.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText edtEmail;
-    private EditText edtSenha;
-    private TextView btnEntrar;
-    private TextView btnCriarConta;
-    private TextView txtEsqueciSenha;
-
+    private ActivityLoginBinding binding;
     private SharedPreferences preferences;
+
+    /**
+     * Abre o Cadastro e recebe de volta o e-mail cadastrado (Intent de resultado),
+     * já preenchendo o campo de login.
+     */
+    private final ActivityResultLauncher<Intent> cadastroLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    String emailCadastrado =
+                            result.getData().getStringExtra(CadastroActivity.EXTRA_EMAIL);
+                    if (emailCadastrado != null) {
+                        binding.edtEmail.setText(emailCadastrado);
+                        binding.edtSenha.requestFocus();
+                        Toast.makeText(this,
+                                "Cadastro realizado! Agora é só digitar sua senha.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        // Ligando os campos do XML
-        edtEmail = findViewById(R.id.edtEmail);
-        edtSenha = findViewById(R.id.edtSenha);
-        btnEntrar = findViewById(R.id.btnEntrar);
-        btnCriarConta = findViewById(R.id.btnCriarConta);
-        txtEsqueciSenha = findViewById(R.id.txtEsqueciSenha);
+        preferences = getSharedPreferences(CadastroActivity.PREFS_USUARIO, MODE_PRIVATE);
 
-        // Acessa os dados salvos no cadastro
-        preferences = getSharedPreferences("dados_usuario", MODE_PRIVATE);
+        binding.btnEntrar.setOnClickListener(v -> fazerLogin());
 
-        // BOTÃO ENTRAR
-        btnEntrar.setOnClickListener(v -> {
+        binding.btnCriarConta.setOnClickListener(v ->
+                cadastroLauncher.launch(new Intent(this, CadastroActivity.class)));
 
-            String email = edtEmail.getText().toString().trim();
-            String senha = edtSenha.getText().toString();
+        binding.btnEsqueciSenha.setOnClickListener(v ->
+                Toast.makeText(this, "Recuperação de senha", Toast.LENGTH_SHORT).show());
+    }
 
-            // Verifica se o e-mail foi preenchido
-            if (email.isEmpty()) {
-                edtEmail.setError("Digite seu e-mail");
-                edtEmail.requestFocus();
-                return;
-            }
+    private void fazerLogin() {
+        binding.tilEmail.setError(null);
+        binding.tilSenha.setError(null);
 
-            // Verifica se a senha foi preenchida
-            if (senha.isEmpty()) {
-                edtSenha.setError("Digite sua senha");
-                edtSenha.requestFocus();
-                return;
-            }
+        String email = texto(binding.edtEmail.getText()).trim();
+        String senha = texto(binding.edtSenha.getText());
 
-            // Pega o e-mail e a senha cadastrados
-            String emailCadastrado =
-                    preferences.getString("email", "");
+        if (email.isEmpty()) {
+            binding.tilEmail.setError("Digite seu e-mail");
+            binding.edtEmail.requestFocus();
+            return;
+        }
 
-            String senhaCadastrada =
-                    preferences.getString("senha", "");
+        if (senha.isEmpty()) {
+            binding.tilSenha.setError("Digite sua senha");
+            binding.edtSenha.requestFocus();
+            return;
+        }
 
-            // Confere os dados
-            if (email.equals(emailCadastrado)
-                    && senha.equals(senhaCadastrada)) {
+        String emailCadastrado = preferences.getString("email", "");
+        String senhaCadastrada = preferences.getString("senha", "");
 
-                Toast.makeText(
-                        LoginActivity.this,
-                        "Login realizado com sucesso!",
-                        Toast.LENGTH_SHORT
-                ).show();
+        if (email.equals(emailCadastrado) && senha.equals(senhaCadastrada)) {
+            Toast.makeText(this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
 
-                // Vai para a tela principal
-                Intent intent = new Intent(
-                        LoginActivity.this,
-                        MainActivity.class
-                );
-
-                startActivity(intent);
-                finish();
-
-            } else {
-
-                Toast.makeText(
-                        LoginActivity.this,
-                        "E-mail ou senha incorretos",
-                        Toast.LENGTH_SHORT
-                ).show();
-            }
-        });
-
-        // BOTÃO CRIAR CONTA
-        btnCriarConta.setOnClickListener(v -> {
-
-            Intent intent = new Intent(
-                    LoginActivity.this,
-                    CadastroActivity.class
-            );
-
+            // Intent explícita levando o nome do usuário para a tela principal
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(MainActivity.EXTRA_NOME_USUARIO, preferences.getString("nome", ""));
             startActivity(intent);
-        });
+            finish();
+        } else {
+            binding.tilSenha.setError("E-mail ou senha incorretos");
+        }
+    }
 
-        // ESQUECI MINHA SENHA
-        txtEsqueciSenha.setOnClickListener(v -> {
-
-            Toast.makeText(
-                    LoginActivity.this,
-                    "Recuperação de senha",
-                    Toast.LENGTH_SHORT
-            ).show();
-        });
+    /** getText() pode retornar null — este método evita NullPointerException. */
+    private static String texto(Editable editable) {
+        return editable == null ? "" : editable.toString();
     }
 }
