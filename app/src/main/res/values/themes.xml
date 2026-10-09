@@ -1,9 +1,80 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme (Material Design 3). -->
     <style name="Base.Theme.Ateliê" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/azul_botao</item>
+        <item name="colorOnPrimary">@color/branco</item>
+        <item name="colorSecondary">@color/coral</item>
     </style>
 
     <style name="Theme.Ateliê" parent="Base.Theme.Ateliê" />
+
+    <!-- Cantos arredondados das imagens das obras -->
+    <style name="FormaImagemObra" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">18dp</item>
+    </style>
+
+    <!-- Campo de texto Material 3 no visual arredondado do app -->
+    <style name="Atelie.Campo" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/campo_fundo</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="boxStrokeColor">@color/azul_botao</item>
+        <item name="boxCornerRadiusTopStart">30dp</item>
+        <item name="boxCornerRadiusTopEnd">30dp</item>
+        <item name="boxCornerRadiusBottomStart">30dp</item>
+        <item name="boxCornerRadiusBottomEnd">30dp</item>
+        <item name="hintTextColor">@color/azul_botao</item>
+        <item name="android:textColorHint">@color/texto_hint</item>
+    </style>
+
+    <!-- Botão principal (preenchido) -->
+    <style name="Atelie.Botao" parent="Widget.Material3.Button">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">30dp</item>
+        <item name="backgroundTint">@color/azul_botao</item>
+        <item name="android:textColor">@color/branco</item>
+    </style>
+
+    <!-- Botão secundário (contorno) -->
+    <style name="Atelie.Botao.Contorno" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">30dp</item>
+        <item name="strokeColor">@color/borda_botao</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:textColor">@color/texto_login</item>
+    </style>
+
+    <!-- Botão redondo de ícone (cabeçalho da Home) -->
+    <style name="Atelie.BotaoIcone" parent="Widget.Material3.Button">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:padding">0dp</item>
+        <item name="cornerRadius">100dp</item>
+    </style>
+
+    <!-- Chip de filtro de categoria (Material 3) -->
+    <style name="Atelie.ChipFiltro" parent="Widget.Material3.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_fundo</item>
+        <item name="android:textColor">@color/chip_texto</item>
+        <item name="android:textSize">16sp</item>
+        <item name="chipMinHeight">48dp</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="chipCornerRadius">100dp</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="chipStartPadding">10dp</item>
+        <item name="chipEndPadding">10dp</item>
+    </style>
 </resources>

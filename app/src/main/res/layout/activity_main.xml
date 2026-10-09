@@ -1,271 +1,369 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF4E4"
-    android:orientation="vertical">
+    android:background="@color/fundo_creme">
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/barraInferior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:paddingTop="20dp"
             android:paddingBottom="24dp">
 
-            <!-- Cabeçalho -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- Guias de margem lateral (telas responsivas) -->
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guiaInicio"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_logo"
-                    android:gravity="center"
-                    android:text="●"
-                    android:textColor="#FFF4E4"
-                    android:textSize="23sp" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ateliê"
-                        android:textColor="#261B16"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="mercado de arte"
-                        android:textColor="#746C68"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/btnBusca"
-                    android:layout_width="46dp"
-                    android:layout_height="46dp"
-                    android:background="@drawable/bg_botao_branco"
-                    android:contentDescription="Buscar obras"
-                    android:gravity="center"
-                    android:text="⌕"
-                    android:textColor="#261B16"
-                    android:textSize="29sp" />
-
-                <TextView
-                    android:id="@+id/btnArte"
-                    android:layout_width="46dp"
-                    android:layout_height="46dp"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/bg_botao_roxo"
-                    android:contentDescription="Explorar arte"
-                    android:gravity="center"
-                    android:text="✿"
-                    android:textColor="#FFFFFF"
-                    android:textSize="26sp" />
-            </LinearLayout>
-
-            <!-- Localização, pesquisa e filtros -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="22dp"
-                android:layout_marginEnd="24dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/btnLocalizacao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_filtro"
-                    android:gravity="center"
-                    android:paddingStart="18dp"
-                    android:paddingEnd="18dp"
-                    android:text="⌖  Artistas próximos  ▾"
-                    android:textColor="#261B16"
-                    android:textSize="16sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/campoBusca"
-                        android:layout_width="0dp"
-                        android:layout_height="52dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_filtro"
-                        android:hint="Pesquisar artista ou obra"
-                        android:inputType="text"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="12dp"
-                        android:singleLine="true"
-                        android:textColor="#261B16"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/btnFiltros"
-                        android:layout_width="52dp"
-                        android:layout_height="52dp"
-                        android:layout_marginStart="10dp"
-                        android:background="@drawable/bg_filtro_ativo"
-                        android:contentDescription="Abrir filtros"
-                        android:gravity="center"
-                        android:text="☷"
-                        android:textColor="#FFFFFF"
-                        android:textSize="27sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Card laranja principal -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="22dp"
-                android:layout_marginEnd="24dp"
-                android:background="@drawable/bg_banner"
                 android:orientation="vertical"
-                android:padding="22dp">
+                app:layout_constraintGuide_begin="@dimen/margem_tela" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-black"
-                    android:lineSpacingExtra="-5dp"
-                    android:text="Arte que&#10;você leva&#10;para casa."
-                    android:textColor="#261B16"
-                    android:textSize="38sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Colecione peças originais direto dos ateliês de todo o Brasil."
-                    android:textColor="#533129"
-                    android:textSize="17sp" />
-
-                <Button
-                    android:id="@+id/btnExplorar"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="22dp"
-                    android:background="@drawable/bg_botao_escuro"
-                    android:text="Explorar obras"
-                    android:textAllCaps="false"
-                    android:textColor="#FFF4E4"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Obras em destaque -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guiaFim"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/margem_tela" />
+
+            <!-- ================= CABEÇALHO ================= -->
+
+            <TextView
+                android:id="@+id/logo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_logo"
+                android:gravity="center"
+                android:text="●"
+                android:textColor="@color/fundo_creme"
+                android:textSize="23sp"
+                app:layout_constraintStart_toStartOf="@id/guiaInicio"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtNomeApp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/app_name"
+                android:textColor="@color/texto_escuro"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/txtSlogan"
+                app:layout_constraintEnd_toStartOf="@id/btnBusca"
+                app:layout_constraintStart_toEndOf="@id/logo"
+                app:layout_constraintTop_toTopOf="@id/logo"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/txtSlogan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="mercado de arte"
+                android:textColor="@color/texto_cinza"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/logo"
+                app:layout_constraintEnd_toEndOf="@id/txtNomeApp"
+                app:layout_constraintStart_toStartOf="@id/txtNomeApp"
+                app:layout_constraintTop_toBottomOf="@id/txtNomeApp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBusca"
+                style="@style/Atelie.BotaoIcone"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="Buscar obras"
+                android:text="⌕"
+                android:textColor="@color/texto_escuro"
+                android:textSize="26sp"
+                app:backgroundTint="@color/branco"
+                app:layout_constraintBottom_toBottomOf="@id/logo"
+                app:layout_constraintEnd_toStartOf="@id/btnArte"
+                app:layout_constraintTop_toTopOf="@id/logo"
+                app:strokeColor="@color/borda_clara"
+                app:strokeWidth="2dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnArte"
+                style="@style/Atelie.BotaoIcone"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:contentDescription="Explorar arte"
+                android:text="✿"
+                android:textColor="@color/branco"
+                android:textSize="24sp"
+                app:backgroundTint="@color/roxo"
+                app:layout_constraintBottom_toBottomOf="@id/logo"
+                app:layout_constraintEnd_toEndOf="@id/guiaFim"
+                app:layout_constraintTop_toTopOf="@id/logo" />
+
+            <!-- Saudação com o nome recebido do Login via Intent -->
+            <TextView
+                android:id="@+id/txtSaudacao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Olá!"
+                android:textColor="@color/texto_escuro"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/guiaFim"
+                app:layout_constraintStart_toStartOf="@id/guiaInicio"
+                app:layout_constraintTop_toBottomOf="@id/logo" />
+
+            <!-- ================= LOCALIZAÇÃO, BUSCA E FILTROS ================= -->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLocalizacao"
+                style="@style/Atelie.BotaoIcone"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:text="⌖  Artistas próximos  ▾"
+                android:textAllCaps="false"
+                android:textColor="@color/texto_escuro"
+                android:textSize="16sp"
+                app:backgroundTint="@color/branco"
+                app:layout_constraintStart_toStartOf="@id/guiaInicio"
+                app:layout_constraintTop_toBottomOf="@id/txtSaudacao" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilBusca"
+                style="@style/Atelie.Campo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
+                android:hint="Pesquisar artista ou obra"
+                app:boxBackgroundColor="@color/branco"
+                app:layout_constraintEnd_toStartOf="@id/btnFiltros"
+                app:layout_constraintStart_toStartOf="@id/guiaInicio"
+                app:layout_constraintTop_toBottomOf="@id/btnLocalizacao">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/campoBusca"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="12dp"
+                    android:singleLine="true"
+                    android:textColor="@color/texto_escuro"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFiltros"
+                style="@style/Atelie.BotaoIcone"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:contentDescription="Abrir filtros"
+                android:text="☷"
+                android:textColor="@color/branco"
+                android:textSize="24sp"
+                app:backgroundTint="@color/texto_escuro"
+                app:layout_constraintBottom_toBottomOf="@id/tilBusca"
+                app:layout_constraintEnd_toEndOf="@id/guiaFim"
+                app:layout_constraintTop_toTopOf="@id/tilBusca" />
+
+            <!-- ================= BANNER ================= -->
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardBanner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                app:cardBackgroundColor="@color/coral"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="@id/guiaFim"
+                app:layout_constraintStart_toStartOf="@id/guiaInicio"
+                app:layout_constraintTop_toBottomOf="@id/tilBusca"
+                app:strokeWidth="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="22dp">
+
+                    <TextView
+                        android:id="@+id/txtBannerTitulo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:lineSpacingExtra="-5dp"
+                        android:text="Arte que&#10;você leva&#10;para casa."
+                        android:textColor="@color/texto_escuro"
+                        android:textSize="38sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txtBannerTexto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Colecione peças originais direto dos ateliês de todo o Brasil."
+                        android:textColor="@color/marrom_banner"
+                        android:textSize="17sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txtBannerTitulo" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnExplorar"
+                        style="@style/Atelie.Botao"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="22dp"
+                        android:text="Explorar obras"
+                        android:textColor="@color/fundo_creme"
+                        app:backgroundTint="@color/texto_escuro"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txtBannerTexto" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ================= OBRAS EM DESTAQUE ================= -->
+
+            <TextView
+                android:id="@+id/txtDestaques"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:layout_marginEnd="24dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:text="Obras em destaque"
+                android:textColor="@color/texto_escuro"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/btnVerTudo"
+                app:layout_constraintStart_toStartOf="@id/guiaInicio"
+                app:layout_constraintTop_toBottomOf="@id/cardBanner" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Obras em destaque"
-                    android:textColor="#261B16"
-                    android:textSize="23sp"
-                    android:textStyle="bold" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVerTudo"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ver tudo"
+                android:textAllCaps="false"
+                android:textColor="@color/coral"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@id/txtDestaques"
+                app:layout_constraintEnd_toEndOf="@id/guiaFim" />
 
-                <TextView
-                    android:id="@+id/btnVerTudo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ver tudo"
-                    android:textColor="#FF5B3D"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+            <!-- Lista horizontal com RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvDestaques"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtDestaques" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <!-- Barra inferior -->
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- ================= BARRA INFERIOR ================= -->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/barraInferior"
+        android:layout_width="0dp"
         android:layout_height="68dp"
-        android:background="#FFFFFF"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:background="@color/branco"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
+            android:id="@+id/navInicio"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="0dp"
             android:gravity="center"
             android:text="⌂"
-            android:textColor="#261B16"
-            android:textSize="30sp" />
+            android:textColor="@color/texto_escuro"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/navExplorar"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/navExplorar"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="0dp"
             android:gravity="center"
             android:text="◉"
-            android:textColor="#AAAAAA"
-            android:textSize="27sp" />
+            android:textColor="@color/icone_inativo"
+            android:textSize="27sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/navAdicionar"
+            app:layout_constraintStart_toEndOf="@id/navInicio"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/navAdicionar"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="0dp"
             android:gravity="center"
             android:text="+"
-            android:textColor="#FF5B3D"
-            android:textSize="38sp" />
+            android:textColor="@color/coral"
+            android:textSize="38sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/navFavoritos"
+            app:layout_constraintStart_toEndOf="@id/navExplorar"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/navFavoritos"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="0dp"
             android:gravity="center"
             android:text="♡"
-            android:textColor="#AAAAAA"
-            android:textSize="32sp" />
+            android:textColor="@color/icone_inativo"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/navPerfil"
+            app:layout_constraintStart_toEndOf="@id/navAdicionar"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/navPerfil"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="0dp"
             android:gravity="center"
             android:text="♙"
-            android:textColor="#AAAAAA"
-            android:textSize="29sp" />
-    </LinearLayout>
+            android:textColor="@color/icone_inativo"
+            android:textSize="29sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/navFavoritos"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

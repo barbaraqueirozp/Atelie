@@ -2,4 +2,28 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Paleta do Ateliê -->
+    <color name="branco">#FFFFFF</color>
+    <color name="fundo_creme">#FFF4E4</color>
+    <color name="fundo_login">#FFF9F4</color>
+    <color name="coral">#FF5B3D</color>
+    <color name="coral_card">#F87862</color>
+    <color name="azul_botao">#667BE5</color>
+    <color name="azul_link">#3575E6</color>
+    <color name="roxo">#8054F6</color>
+    <color name="marrom_banner">#533129</color>
+
+    <color name="texto_escuro">#261B16</color>
+    <color name="texto_cinza">#746C68</color>
+    <color name="texto_login">#202033</color>
+    <color name="texto_login_sec">#594E4D</color>
+    <color name="texto_hint">#817977</color>
+    <color name="texto_termos">#9A918E</color>
+    <color name="icone_inativo">#AAAAAA</color>
+
+    <color name="campo_fundo">#FFFDFC</color>
+    <color name="borda_botao">#CEC5C1</color>
+    <color name="borda_clara">#E9E5E1</color>
+    <color name="divisor">#D4CCC8</color>
 </resources>

@@ -1,7 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme (modo escuro). -->
     <style name="Base.Theme.Ateliê" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/azul_botao</item>
+        <item name="colorOnPrimary">@color/branco</item>
+        <item name="colorSecondary">@color/coral</item>
     </style>
 </resources>
