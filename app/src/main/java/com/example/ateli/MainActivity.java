@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         binding.btnArte.setOnClickListener(v -> abrirExplorar(ObraRepositorio.CATEGORIA_TODAS));
         binding.btnBusca.setOnClickListener(v -> binding.campoBusca.requestFocus());
         binding.navExplorar.setOnClickListener(v -> abrirExplorar(ObraRepositorio.CATEGORIA_TODAS));
+        binding.navPerfil.setOnClickListener(v ->
+                startActivity(new Intent(this, PerfilActivity.class)));
     }
 
     @Override

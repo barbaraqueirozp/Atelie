@@ -24,6 +24,13 @@ public interface AtelieApi {
     @GET("obras")
     Call<List<Obra>> listarObras(@Query("categoria") String categoria);
 
+    /** Obras à venda de um artista (tela de perfil). */
+    @GET("obras")
+    Call<List<Obra>> listarObrasDoVendedor(@Query("vendedor") int idVendedor);
+
+    @GET("usuarios/{id}/perfil")
+    Call<PerfilResponse> buscarPerfil(@Path("id") int idUsuario);
+
     @GET("obras/{id}")
     Call<Obra> buscarObra(@Path("id") int id);
 }

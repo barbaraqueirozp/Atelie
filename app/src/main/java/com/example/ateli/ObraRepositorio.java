@@ -53,6 +53,25 @@ public final class ObraRepositorio {
         });
     }
 
+    /** Obras à venda de um artista. */
+    public static void listarDoVendedor(int idVendedor, Resultado<List<Obra>> resultado) {
+        ApiClient.get().listarObrasDoVendedor(idVendedor).enqueue(new Callback<List<Obra>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Obra>> call, @NonNull Response<List<Obra>> resp) {
+                if (resp.isSuccessful() && resp.body() != null) {
+                    resultado.sucesso(resp.body());
+                } else {
+                    resultado.erro(ApiClient.mensagemDeErro(resp, "Erro ao carregar obras"));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Obra>> call, @NonNull Throwable t) {
+                resultado.erro("Sem conexão com o servidor");
+            }
+        });
+    }
+
     public static void buscarPorId(int id, Resultado<Obra> resultado) {
         ApiClient.get().buscarObra(id).enqueue(new Callback<Obra>() {
             @Override
