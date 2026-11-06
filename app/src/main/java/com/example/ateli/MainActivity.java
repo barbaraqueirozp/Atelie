@@ -22,6 +22,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.ateli.databinding.ActivityMainBinding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     /** Chave do nome do usuário enviado pelo Login. */
@@ -114,10 +117,24 @@ public class MainActivity extends AppCompatActivity {
     // =========================
 
     private void configurarDestaques() {
-        ObraAdapter adapter = new ObraAdapter(
-                ObraRepositorio.listarTodas(), true, this::abrirDetalhe);
+        // Começa vazio e preenche quando a API responder
+        ObraAdapter adapter = new ObraAdapter(new ArrayList<>(), true, this::abrirDetalhe);
         binding.rvDestaques.setAdapter(adapter);
         binding.rvDestaques.setHasFixedSize(true);
+
+        ObraRepositorio.listarTodas(new ObraRepositorio.Resultado<List<Obra>>() {
+            @Override
+            public void sucesso(List<Obra> obras) {
+                if (isFinishing() || isDestroyed()) return;
+                adapter.atualizarLista(obras);
+            }
+
+            @Override
+            public void erro(String mensagem) {
+                if (isFinishing() || isDestroyed()) return;
+                Toast.makeText(MainActivity.this, mensagem, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     // =========================

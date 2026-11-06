@@ -20,6 +20,13 @@ public final class Datas {
         return formato.format(new Date(millisUtc));
     }
 
+    /** Formato enviado para a API: "2000-12-31". */
+    public static String formatarIso(long millisUtc) {
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        formato.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return formato.format(new Date(millisUtc));
+    }
+
     /** Ex.: "sábado, 10 de outubro de 2026". */
     public static String formatarPorExtenso(long millisUtc) {
         SimpleDateFormat formato = new SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy",

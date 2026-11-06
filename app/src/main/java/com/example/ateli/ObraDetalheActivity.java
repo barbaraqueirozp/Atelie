@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.ateli.databinding.ActivityObraDetalheBinding;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
@@ -36,10 +37,9 @@ public class ObraDetalheActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Validação dos dados recebidos ANTES de montar a tela:
-        // se a Intent vier sem ID ou com um ID inválido, fechamos sem travar o app.
+        // se a Intent vier sem ID, fechamos sem travar o app.
         int obraId = getIntent().getIntExtra(EXTRA_OBRA_ID, -1);
-        obra = ObraRepositorio.buscarPorId(obraId);
-        if (obra == null) {
+        if (obraId == -1) {
             Toast.makeText(this, "Obra não encontrada", Toast.LENGTH_SHORT).show();
             finish();
             return;
@@ -55,7 +55,22 @@ public class ObraDetalheActivity extends AppCompatActivity {
             return insets;
         });
 
-        preencherTela();
+        // Busca os dados da obra na API e preenche a tela quando chegarem
+        ObraRepositorio.buscarPorId(obraId, new ObraRepositorio.Resultado<Obra>() {
+            @Override
+            public void sucesso(Obra dado) {
+                if (isFinishing() || isDestroyed()) return;
+                obra = dado;
+                preencherTela();
+            }
+
+            @Override
+            public void erro(String mensagem) {
+                if (isFinishing() || isDestroyed()) return;
+                Toast.makeText(ObraDetalheActivity.this, mensagem, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
 
         if (savedInstanceState != null) {
             dataVisitaMillis = savedInstanceState.getLong(ESTADO_DATA_VISITA, -1L);
@@ -83,8 +98,8 @@ public class ObraDetalheActivity extends AppCompatActivity {
         binding.txtDescricao.setText(obra.getDescricao());
 
         binding.imgObra.setBackgroundResource(obra.getFundoRes());
-        if (obra.getImagemRes() != 0) {
-            binding.imgObra.setImageResource(obra.getImagemRes());
+        if (obra.getImagemUrl() != null) {
+            Glide.with(this).load(obra.getImagemUrl()).into(binding.imgObra);
         }
         binding.imgObra.setContentDescription("Obra " + obra.getTitulo());
     }

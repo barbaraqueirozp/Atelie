@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import com.example.ateli.databinding.ItemObraBinding;
 
 import java.util.ArrayList;
@@ -84,10 +86,12 @@ public class ObraAdapter extends RecyclerView.Adapter<ObraAdapter.ObraViewHolder
             binding.txtPreco.setText(obra.getPrecoFormatado());
 
             binding.imgObra.setBackgroundResource(obra.getFundoRes());
-            if (obra.getImagemRes() != 0) {
-                binding.imgObra.setImageResource(obra.getImagemRes());
+            if (obra.getImagemUrl() != null) {
+                // Glide baixa a imagem da API e guarda em cache
+                Glide.with(binding.imgObra).load(obra.getImagemUrl()).into(binding.imgObra);
             } else {
                 // limpa a imagem reciclada de outro item
+                Glide.with(binding.imgObra).clear(binding.imgObra);
                 binding.imgObra.setImageDrawable(null);
             }
             binding.imgObra.setContentDescription("Obra " + obra.getTitulo());
