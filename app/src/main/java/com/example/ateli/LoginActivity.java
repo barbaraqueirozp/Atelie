@@ -8,9 +8,18 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.ateli.api.ApiClient;
+import com.example.ateli.api.LoginRequest;
+import com.example.ateli.api.UsuarioResponse;
+
 import com.example.ateli.databinding.ActivityLoginBinding;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -72,20 +81,49 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        String emailCadastrado = preferences.getString("email", "");
-        String senhaCadastrada = preferences.getString("senha", "");
+        // Confere e-mail e senha na API (que compara com o hash salvo no banco)
+        binding.btnEntrar.setEnabled(false);
+        ApiClient.get().login(new LoginRequest(email, senha)).enqueue(new Callback<UsuarioResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<UsuarioResponse> call,
+                                   @NonNull Response<UsuarioResponse> resposta) {
+                if (isFinishing() || isDestroyed()) return;
+                binding.btnEntrar.setEnabled(true);
 
-        if (email.equals(emailCadastrado) && senha.equals(senhaCadastrada)) {
-            Toast.makeText(this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                if (resposta.isSuccessful() && resposta.body() != null) {
+                    UsuarioResponse usuario = resposta.body();
 
-            // Intent explícita levando o nome do usuário para a tela principal
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(MainActivity.EXTRA_NOME_USUARIO, preferences.getString("nome", ""));
-            startActivity(intent);
-            finish();
-        } else {
-            binding.tilSenha.setError("E-mail ou senha incorretos");
-        }
+                    // Guarda só a sessão (id e nome) — a senha NÃO fica no celular
+                    preferences.edit()
+                            .clear()
+                            .putInt("id_usuario", usuario.idUsuario)
+                            .putString("nome", usuario.nomeCompleto)
+                            .putString("email", usuario.email)
+                            .apply();
+
+                    Toast.makeText(LoginActivity.this, "Login realizado com sucesso!",
+                            Toast.LENGTH_SHORT).show();
+
+                    // Intent explícita levando o nome do usuário para a tela principal
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra(MainActivity.EXTRA_NOME_USUARIO, usuario.nomeCompleto);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    binding.tilSenha.setError(
+                            ApiClient.mensagemDeErro(resposta, "E-mail ou senha incorretos"));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<UsuarioResponse> call, @NonNull Throwable t) {
+                if (isFinishing() || isDestroyed()) return;
+                binding.btnEntrar.setEnabled(true);
+                Toast.makeText(LoginActivity.this,
+                        "Sem conexão com o servidor. A API está rodando?",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /** getText() pode retornar null — este método evita NullPointerException. */

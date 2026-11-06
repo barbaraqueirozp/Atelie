@@ -7,15 +7,23 @@ import android.text.Editable;
 import android.util.Patterns;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.ateli.api.ApiClient;
+import com.example.ateli.api.CadastroRequest;
+import com.example.ateli.api.UsuarioResponse;
 import com.example.ateli.databinding.ActivityCadastroBinding;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CadastroActivity extends AppCompatActivity {
 
@@ -190,27 +198,53 @@ public class CadastroActivity extends AppCompatActivity {
         // SALVAR USUÁRIO
         // =========================
 
-        preferences.edit()
-                .putString("nome", nome)
-                .putString("cpf", cpf)
-                .putLong("data_nascimento", dataNascimentoMillis)
-                .putString("email", email)
-                .putString("senha", senha)
-                .putString("cep", cep)
-                .putString("rua", rua)
-                .putString("numero", numero)
-                .putString("complemento", complemento)
-                .putString("bairro", bairro)
-                .putString("cidade", cidade)
-                .putString("estado", estado)
-                .apply();
+        CadastroRequest dados = new CadastroRequest();
+        dados.nomeCompleto = nome;
+        dados.cpf = cpf;
+        dados.dataNascimento = Datas.formatarIso(dataNascimentoMillis);
+        dados.email = email;
+        dados.senha = senha;
+        dados.cep = cep;
+        dados.logradouro = rua;
+        dados.numero = numero;
+        dados.complemento = complemento.isEmpty() ? null : complemento;
+        dados.bairro = bairro;
+        dados.cidade = cidade;
+        dados.estado = estado.toUpperCase();
 
-        // Devolve o e-mail para o Login (Intent de resultado) e fecha esta tela.
-        // Não abrimos um novo Login para não duplicar telas na pilha.
-        Intent resultado = new Intent();
-        resultado.putExtra(EXTRA_EMAIL, email);
-        setResult(RESULT_OK, resultado);
-        finish();
+        // Envia para a API, que grava na tabela usuario (com a senha em hash)
+        binding.btnCadastrar.setEnabled(false);
+        ApiClient.get().cadastrar(dados).enqueue(new Callback<UsuarioResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<UsuarioResponse> call,
+                                   @NonNull Response<UsuarioResponse> resposta) {
+                if (isFinishing() || isDestroyed()) return;
+                binding.btnCadastrar.setEnabled(true);
+
+                if (resposta.isSuccessful()) {
+                    // Devolve o e-mail para o Login (Intent de resultado) e fecha esta tela.
+                    // Não abrimos um novo Login para não duplicar telas na pilha.
+                    Intent resultado = new Intent();
+                    resultado.putExtra(EXTRA_EMAIL, email);
+                    setResult(RESULT_OK, resultado);
+                    finish();
+                } else {
+                    // Ex.: 409 "Este e-mail já está cadastrado"
+                    Toast.makeText(CadastroActivity.this,
+                            ApiClient.mensagemDeErro(resposta, "Não foi possível cadastrar"),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<UsuarioResponse> call, @NonNull Throwable t) {
+                if (isFinishing() || isDestroyed()) return;
+                binding.btnCadastrar.setEnabled(true);
+                Toast.makeText(CadastroActivity.this,
+                        "Sem conexão com o servidor. A API está rodando?",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     // =========================

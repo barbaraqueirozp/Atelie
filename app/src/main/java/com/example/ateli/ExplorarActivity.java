@@ -3,6 +3,7 @@ package com.example.ateli;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.ateli.databinding.ActivityExplorarBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExplorarActivity extends AppCompatActivity {
@@ -50,8 +52,7 @@ public class ExplorarActivity extends AppCompatActivity {
         }
 
         // RecyclerView em grade de 2 colunas
-        adapter = new ObraAdapter(
-                ObraRepositorio.listarPorCategoria(categoriaAtual), false, this::abrirDetalhe);
+        adapter = new ObraAdapter(new ArrayList<>(), false, this::abrirDetalhe);
         binding.rvObras.setLayoutManager(new GridLayoutManager(this, 2));
         binding.rvObras.setHasFixedSize(true);
         binding.rvObras.setAdapter(adapter);
@@ -74,10 +75,28 @@ public class ExplorarActivity extends AppCompatActivity {
 
     private void aplicarFiltro(String categoria) {
         categoriaAtual = categoria;
-        List<Obra> obras = ObraRepositorio.listarPorCategoria(categoria);
-        adapter.atualizarLista(obras);
-
         binding.txtCategoria.setText(categoria);
+        binding.txtQuantidade.setText("Carregando...");
+
+        ObraRepositorio.listarPorCategoria(categoria, new ObraRepositorio.Resultado<List<Obra>>() {
+            @Override
+            public void sucesso(List<Obra> obras) {
+                // Ignora respostas antigas se a pessoa já trocou de filtro
+                if (isFinishing() || isDestroyed() || !categoria.equals(categoriaAtual)) return;
+                mostrarObras(obras);
+            }
+
+            @Override
+            public void erro(String mensagem) {
+                if (isFinishing() || isDestroyed()) return;
+                mostrarObras(new ArrayList<>());
+                Toast.makeText(ExplorarActivity.this, mensagem, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void mostrarObras(List<Obra> obras) {
+        adapter.atualizarLista(obras);
         binding.txtQuantidade.setText(obras.size() == 1 ? "1 obra" : obras.size() + " obras");
 
         boolean vazio = obras.isEmpty();
