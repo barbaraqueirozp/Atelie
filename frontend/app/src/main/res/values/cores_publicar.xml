@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cores da tela Publicar obra (protótipo) -->
+<resources>
+    <color name="campo_bege">#F5EDE2</color>
+    <color name="sombra_secao">#EAE2D4</color>
+    <color name="coral_botao">#EC694B</color>
+</resources>

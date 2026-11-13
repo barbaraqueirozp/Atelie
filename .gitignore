@@ -13,3 +13,23 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Android / Gradle
+.gradle/
+**/build/
+local.properties
+*.apk
+*.aab
+
+# Spring Boot / Maven
+**/target/
+
+# macOS
+.DS_Store
+
+# Arquivos locais e credenciais
+.env
+.env.*
+!.env.example
+**/application-local.properties
+**/application-local.yml
