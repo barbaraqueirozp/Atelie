@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Tela de perfil do usuário logado -->
+<!-- Perfil do usuário logado: interface de ARTISTA (vendedor) ou de COMPRADOR -->
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
@@ -54,7 +54,7 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- ===== Cartão laranja ===== -->
+        <!-- ===== Cartão laranja (os dois perfis) ===== -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/txtLocal"
+                        android:id="@+id/txtSubtitulo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -106,12 +106,14 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Contadores -->
+            <!-- Contadores: só para artistas -->
             <LinearLayout
+                android:id="@+id/grupoEstatisticas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -171,53 +173,155 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- ===== Minhas obras ===== -->
+        <!-- Aviso para vendedor que ainda não cadastrou o ateliê -->
         <LinearLayout
+            android:id="@+id/cardSemAtelie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_secao"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="24dp"
+            android:visibility="gone">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Minhas obras"
+                android:text="Falta cadastrar seu ateliê"
                 android:textColor="@color/texto_escuro"
-                android:textSize="26sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/btnVerComoCliente"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:padding="6dp"
-                android:text="Ver como cliente"
-                android:textColor="@color/coral"
+                android:layout_marginTop="4dp"
+                android:text="Com ele você publica obras e recebe visitas de colecionadores."
+                android:textColor="@color/texto_cinza"
                 android:textSize="15sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCadastrarAtelie"
+                style="@style/Atelie.Botao"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="14dp"
+                android:text="Cadastrar ateliê"
+                app:backgroundTint="@color/coral_botao" />
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMinhasObras"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="-6dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="-6dp"
-            android:nestedScrollingEnabled="false" />
-
+        <!-- ===== Menu (os itens visíveis mudam conforme o tipo de conta) ===== -->
         <TextView
-            android:id="@+id/txtSemObras"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:text="Você ainda não tem obras à venda."
-            android:textColor="@color/texto_cinza"
-            android:textSize="15sp"
-            android:visibility="gone" />
+            android:text="Minha conta"
+            android:textColor="@color/texto_escuro"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/cardMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_secao"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="24dp">
+
+            <include
+                android:id="@+id/menuAtelie"
+                layout="@layout/item_menu_perfil" />
+            <include
+                android:id="@+id/menuCompras"
+                layout="@layout/item_menu_perfil" />
+            <include
+                android:id="@+id/menuFavoritas"
+                layout="@layout/item_menu_perfil" />
+            <include
+                android:id="@+id/menuNotificacoes"
+                layout="@layout/item_menu_perfil" />
+            <include
+                android:id="@+id/menuConversas"
+                layout="@layout/item_menu_perfil" />
+            <include
+                android:id="@+id/menuConfiguracoes"
+                layout="@layout/item_menu_perfil" />
+            <include
+                android:id="@+id/menuVender"
+                layout="@layout/item_menu_perfil" />
+        </LinearLayout>
+
+        <!-- ===== Minhas obras: só para artistas ===== -->
+        <LinearLayout
+            android:id="@+id/secaoObras"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Minhas obras"
+                    android:textColor="@color/texto_escuro"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btnVerComoCliente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="6dp"
+                    android:text="Ver como cliente"
+                    android:textColor="@color/coral"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMinhasObras"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-6dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="-6dp"
+                android:nestedScrollingEnabled="false" />
+
+            <TextView
+                android:id="@+id/txtSemObras"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="Você ainda não tem obras à venda."
+                android:textColor="@color/texto_cinza"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPublicar"
+                style="@style/Atelie.Botao"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="24dp"
+                android:text="Publicar nova obra"
+                app:backgroundTint="@color/texto_escuro" />
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

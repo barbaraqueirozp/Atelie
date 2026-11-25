@@ -110,6 +110,40 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/txtTitulo" />
+                    <!-- Tipo de conta: comprador ou vendedor -->
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/grupoTipoConta"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        app:checkedButton="@id/btnQueroComprar"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txtSubtitulo"
+                        app:selectionRequired="true"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnQueroComprar"
+                            style="@style/Atelie.Botao.Contorno"
+                            android:layout_width="0dp"
+                            android:layout_height="54dp"
+                            android:layout_weight="1"
+                            android:text="Quero comprar"
+                            android:textColor="@color/toggle_texto"
+                            app:backgroundTint="@color/toggle_fundo" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnQueroVender"
+                            style="@style/Atelie.Botao.Contorno"
+                            android:layout_width="0dp"
+                            android:layout_height="54dp"
+                            android:layout_weight="1"
+                            android:text="Quero vender"
+                            android:textColor="@color/toggle_texto"
+                            app:backgroundTint="@color/toggle_fundo" />
+
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilNome"
@@ -120,7 +154,7 @@
                         android:hint="Nome completo"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/txtSubtitulo">
+                        app:layout_constraintTop_toBottomOf="@id/grupoTipoConta">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtNome"
@@ -132,6 +166,7 @@
                             android:singleLine="true"
                             android:textColor="@color/texto_login"
                             android:textSize="16sp" />
+
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout

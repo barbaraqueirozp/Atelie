@@ -14,4 +14,6 @@ public class CadastroRequest {
     public String bairro;
     public String cidade;
     public String estado;
+
+    public String tipoConta;
 }

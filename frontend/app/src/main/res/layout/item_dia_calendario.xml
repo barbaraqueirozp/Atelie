@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Um dia do calendário de visitas -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="52dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtDia"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:gravity="center"
+        android:textSize="15sp" />
+
+    <View
+        android:id="@+id/pontoDisponivel"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/bg_ponto_disponivel" />
+</LinearLayout>

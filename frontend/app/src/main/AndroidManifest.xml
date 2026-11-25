@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissões -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -16,26 +17,67 @@
         android:theme="@style/Theme.Ateliê"
         android:usesCleartextTraffic="true">
 
+        <!-- Compartilhamento seguro de imagens com a câmera -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+
+        </provider>
+
+        <!-- Perfil do usuário -->
         <activity
             android:name=".PerfilActivity"
             android:exported="false" />
 
+        <!-- Explorar obras -->
         <activity
             android:name=".ExplorarActivity"
             android:exported="false" />
 
+        <!-- Detalhes da obra -->
         <activity
             android:name=".ObraDetalheActivity"
             android:exported="false" />
 
+        <!-- Cadastro de usuário -->
         <activity
             android:name=".CadastroActivity"
             android:exported="false" />
 
+        <!-- Cadastro do ateliê -->
+        <activity
+            android:name=".CadastroAtelieActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Agendamento de visitas -->
+        <activity
+            android:name=".AgendarVisitaActivity"
+            android:exported="false" />
+
+        <!-- Funcionalidades em desenvolvimento -->
+        <activity
+            android:name=".EmBreveActivity"
+            android:exported="false" />
+
+        <!-- Publicação de obras -->
+        <activity
+            android:name=".PublicarObraActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Tela principal -->
         <activity
             android:name=".MainActivity"
             android:exported="false" />
 
+        <!-- Login: tela inicial do aplicativo -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
