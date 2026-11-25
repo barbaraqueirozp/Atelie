@@ -50,6 +50,8 @@ public class ExplorarActivity extends AppCompatActivity {
                 categoriaAtual = categoriaRecebida;
             }
         }
+            String buscaRecebida = getIntent().getStringExtra("EXTRA_BUSCA");
+
 
         // RecyclerView em grade de 2 colunas
         adapter = new ObraAdapter(new ArrayList<>(), false, this::abrirDetalhe);
@@ -58,9 +60,14 @@ public class ExplorarActivity extends AppCompatActivity {
         binding.rvObras.setAdapter(adapter);
 
         binding.grupoFiltros.check(chipDaCategoria(categoriaAtual));
-        aplicarFiltro(categoriaAtual);
+        if (buscaRecebida != null && !buscaRecebida.isEmpty()) {
+            aplicarFiltroPorTexto(buscaRecebida);
+        } else {
+            aplicarFiltro(categoriaAtual);
+        }
 
-        binding.grupoFiltros.setOnCheckedStateChangeListener((grupo, idsMarcados) -> {
+
+            binding.grupoFiltros.setOnCheckedStateChangeListener((grupo, idsMarcados) -> {
             if (!idsMarcados.isEmpty()) {
                 aplicarFiltro(categoriaDoChip(idsMarcados.get(0)));
             }
@@ -91,6 +98,32 @@ public class ExplorarActivity extends AppCompatActivity {
                 if (isFinishing() || isDestroyed()) return;
                 mostrarObras(new ArrayList<>());
                 Toast.makeText(ExplorarActivity.this, mensagem, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    private void aplicarFiltroPorTexto(String textoBusca) {
+        categoriaAtual = ObraRepositorio.CATEGORIA_TODAS;
+        binding.txtCategoria.setText("Busca: \"" + textoBusca + "\"");
+        binding.txtQuantidade.setText("Carregando...");
+        ObraRepositorio.listarPorCategoria(ObraRepositorio.CATEGORIA_TODAS, new ObraRepositorio.Resultado<List<Obra>>() {
+            @Override
+            public void sucesso(List<Obra> obras) {
+                if (isFinishing() || isDestroyed()) return;
+                String termo = textoBusca.toLowerCase().trim();
+                List<Obra> filtradas = new ArrayList<>();
+                for (Obra obra : obras) {
+                    boolean bateTitulo = obra.getTitulo() != null && obra.getTitulo().toLowerCase().contains(termo);
+                    boolean bateArtista = obra.getArtista() != null && obra.getArtista().toLowerCase().contains(termo);
+                    if (bateTitulo || bateArtista) {
+                        filtradas.add(obra);
+                    }
+                }
+                mostrarObras(filtradas);
+            }
+            @Override
+            public void erro(String mensagem) {
+                if (isFinishing() || isDestroyed()) return;
+                binding.txtQuantidade.setText("Erro ao buscar obras");
             }
         });
     }

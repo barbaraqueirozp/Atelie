@@ -78,7 +78,15 @@ public class MainActivity extends AppCompatActivity {
         binding.btnExplorar.setOnClickListener(v -> abrirExplorar(categoriaSelecionada));
         binding.btnVerTudo.setOnClickListener(v -> abrirExplorar(ObraRepositorio.CATEGORIA_TODAS));
         binding.btnArte.setOnClickListener(v -> abrirExplorar(ObraRepositorio.CATEGORIA_TODAS));
-        binding.btnBusca.setOnClickListener(v -> binding.campoBusca.requestFocus());
+        binding.btnBusca.setOnClickListener(v -> {
+            String termoBuscar = binding.campoBusca.getText().toString().trim();
+
+            if(termoBuscar.isEmpty()){
+                binding.campoBusca.requestFocus();
+            } else {
+                abrirExplorar(ObraRepositorio.CATEGORIA_TODAS, termoBuscar);
+            }
+        });
         binding.navExplorar.setOnClickListener(v -> abrirExplorar(ObraRepositorio.CATEGORIA_TODAS));
         binding.navPerfil.setOnClickListener(v ->
                 startActivity(new Intent(this, PerfilActivity.class)));
@@ -150,8 +158,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void abrirExplorar(String categoria) {
+        abrirExplorar(categoria, null);
+    }
+    private void abrirExplorar(String categoria, String busca) {
         Intent intent = new Intent(this, ExplorarActivity.class);
         intent.putExtra(ExplorarActivity.EXTRA_CATEGORIA, categoria);
+        if(busca != null && !busca.isEmpty()){
+            intent.putExtra("EXTRA_BUSCA", busca);
+        }
         startActivity(intent);
     }
 
