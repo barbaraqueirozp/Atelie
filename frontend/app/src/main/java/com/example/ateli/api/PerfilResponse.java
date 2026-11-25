@@ -8,4 +8,8 @@ public class PerfilResponse {
     public String estado;
     public long obrasAVenda;   // obras disponíveis agora
     public long acervoTotal;   // todas as obras já cadastradas
+    public String tipoConta;
+    public boolean temAtelie;
+    public String nomeAtelie;
+    public String especialidade;
 }

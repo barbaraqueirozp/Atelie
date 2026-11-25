@@ -7,4 +7,6 @@ public class UsuarioResponse {
     public String email;
     public String cidade;
     public String estado;
+    public String tipoConta;
+    public boolean temAtelie;
 }

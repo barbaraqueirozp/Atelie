@@ -211,6 +211,8 @@ public class CadastroActivity extends AppCompatActivity {
         dados.bairro = bairro;
         dados.cidade = cidade;
         dados.estado = estado.toUpperCase();
+        boolean querVender = binding.grupoTipoConta.getCheckedButtonId() == R.id.btnQueroVender;
+        dados.tipoConta = querVender ? Sessao.VENDEDOR : Sessao.COMPRADOR;
 
         // Envia para a API, que grava na tabela usuario (com a senha em hash)
         binding.btnCadastrar.setEnabled(false);
@@ -222,6 +224,14 @@ public class CadastroActivity extends AppCompatActivity {
                 binding.btnCadastrar.setEnabled(true);
 
                 if (resposta.isSuccessful()) {
+                    // Vendedor: abre o cadastro do ateliê. Ao terminar, ele volta para o Login.
+                    if (querVender && resposta.body() != null) {
+                        Intent atelie = new Intent(CadastroActivity.this, CadastroAtelieActivity.class);
+                        atelie.putExtra(CadastroAtelieActivity.EXTRA_ID_USUARIO, resposta.body().idUsuario);
+                        atelie.putExtra(CadastroAtelieActivity.EXTRA_VEIO_DO_CADASTRO, true);
+                        startActivity(atelie);
+                    }
+
                     // Devolve o e-mail para o Login (Intent de resultado) e fecha esta tela.
                     // Não abrimos um novo Login para não duplicar telas na pilha.
                     Intent resultado = new Intent();

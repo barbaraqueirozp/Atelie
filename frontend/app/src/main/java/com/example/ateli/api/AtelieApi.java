@@ -14,7 +14,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Multipart;
 import retrofit2.http.Part;
-
+import retrofit2.http.PUT;
 /** Endpoints da API Spring Boot (atelie-api). */
 public interface AtelieApi {
     @Multipart
@@ -47,4 +47,26 @@ public interface AtelieApi {
 
     @GET("obras/{id}")
     Call<Obra> buscarObra(@Path("id") int id);
+
+    @GET("usuarios/{id}/atelie")
+    Call<AtelieDados> buscarAtelie(@Path("id") int idUsuario);
+
+    @PUT("usuarios/{id}/atelie")
+    Call<AtelieDados> salvarAtelie(
+            @Path("id") int idUsuario,
+            @Body AtelieDados dados
+    );
+
+    @GET("usuarios/{id}/atelie/agenda")
+    Call<AgendaResponse> buscarAgenda(
+            @Path("id") int idArtista,
+            @Query("inicio") String inicio,
+            @Query("dias") int dias
+    );
+
+    @POST("usuarios/{id}/atelie/visitas")
+    Call<VisitaResponse> agendarVisita(
+            @Path("id") int idArtista,
+            @Body VisitaRequest pedido
+    );
 }

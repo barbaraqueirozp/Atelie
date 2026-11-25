@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Um horário livre (criado pelo código na tela de agendamento) -->
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Atelie.ChipFiltro"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:checkable="true"
+    app:chipBackgroundColor="@color/chip_fundo_bege"
+    app:chipMinHeight="46dp" />

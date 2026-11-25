@@ -93,13 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (resposta.isSuccessful() && resposta.body() != null) {
                     UsuarioResponse usuario = resposta.body();
 
-                    // Guarda só a sessão (id e nome) — a senha NÃO fica no celular
-                    preferences.edit()
-                            .clear()
-                            .putInt("id_usuario", usuario.idUsuario)
-                            .putString("nome", usuario.nomeCompleto)
-                            .putString("email", usuario.email)
-                            .apply();
+                    // Guarda só a sessão (id, nome e tipo de conta) — a senha NÃO fica no celular
+                    Sessao.salvar(LoginActivity.this, usuario);
 
                     Toast.makeText(LoginActivity.this, "Login realizado com sucesso!",
                             Toast.LENGTH_SHORT).show();
